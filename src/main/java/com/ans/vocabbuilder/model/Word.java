@@ -1,17 +1,20 @@
 package com.ans.vocabbuilder.model;
 
 import com.ans.vocabbuilder.enums.PartOfSpeech;
+import org.springframework.data.mongodb.core.index.IndexDirection;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.util.List;
 
 public class Word {
+    @Indexed(name = "word_id_index", direction = IndexDirection.DESCENDING)
     private String wordId;
     private String name;
-    private String definition;
+    private List<String> definition;
     private PartOfSpeech partOfSpeech;
     private String usage;
-    private List<Word> synonyms;
-    private List<Word> antonyms;
+    private List<String> synonyms;
+    private List<String> antonyms;
 
     public String getWordId() {
         return wordId;
@@ -29,11 +32,11 @@ public class Word {
         this.name = name;
     }
 
-    public String getDefinition() {
+    public List<String> getDefinitions() {
         return definition;
     }
 
-    public void setDefinition(String definition) {
+    public void setDefinitions(List<String> definition) {
         this.definition = definition;
     }
 
@@ -53,19 +56,19 @@ public class Word {
         this.usage = usage;
     }
 
-    public List<Word> getSynonyms() {
+    public List<String> getSynonyms() {
         return synonyms;
     }
 
-    public void setSynonyms(List<Word> synonyms) {
+    public void setSynonyms(List<String> synonyms) {
         this.synonyms = synonyms;
     }
 
-    public List<Word> getAntonyms() {
+    public List<String> getAntonyms() {
         return antonyms;
     }
 
-    public void setAntonyms(List<Word> antonyms) {
+    public void setAntonyms(List<String> antonyms) {
         this.antonyms = antonyms;
     }
 }

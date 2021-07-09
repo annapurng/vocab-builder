@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @RestController
@@ -18,26 +19,27 @@ public class WordController {
     @Autowired
     WordRepository wordRepository;
     
-    @GetMapping(value="")
+    @GetMapping(produces="application/json")
     public List<Word> getAllWords() {
         return wordRepository.findAll();
     }
     
-    @GetMapping(value="/{word}")
+    @GetMapping(value="/{word}", produces="application/json")
     public List<Word> getWord(@PathVariable String word) {
-        return wordRepository.findByWord(word);
+        return wordRepository.findByWordId(word);
     }
 
-    @GetMapping(value="/random")
+    @GetMapping(value="/random", produces="application/json")
     public List<Word> getRandomWords(@RequestParam int count) {
         return wordRepository.findSampleNWords(count);
 
     }
     
-    @PostMapping
-    public Word addWord(Word wordInput) {
+    @PostMapping(produces="application/json", consumes="application/json")
+    public Word addWord(@RequestBody Word wordInput) {
         ValidationHelper.validate(wordInput);
 
+        wordInput.setWordId(UUID.randomUUID().toString());
         return wordRepository.save(wordInput);
     }
 
